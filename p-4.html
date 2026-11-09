@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore Karnataka</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f7f2;
+    color: #26352b;
+}
+
+header {
+    background: #174b35;
+    color: white;
+    padding: 22px;
+    text-align: center;
+}
+
+nav {
+    background: #286346;
+    padding: 14px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 12px;
+    font-weight: bold;
+}
+
+.hero {
+    background: linear-gradient(#0006,#0006),
+    url("https://images.unsplash.com/photo-1600100397608-f010e5f1a8c9?w=1400")
+    center/cover;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero h2 {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+}
+
+.controls {
+    text-align: center;
+    padding: 25px;
+}
+
+input, select, button {
+    padding: 11px;
+    margin: 7px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    background: #24744b;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #174b35;
+}
+
+h2.section-title {
+    text-align: center;
+    margin: 25px;
+}
+
+.places {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+    gap: 22px;
+    padding: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px #0002;
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.card h3 {
+    margin-bottom: 8px;
+}
+
+.card p {
+    margin: 7px 0;
+}
+
+.card button {
+    margin-top: 8px;
+}
+
+.tools {
+    background: #e3eee5;
+    padding: 35px 15px;
+    text-align: center;
+}
+
+.tools div {
+    margin: 18px;
+}
+
+footer {
+    background: #174b35;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+@media(max-width:600px) {
+    .hero h2 {
+        font-size: 28px;
+    }
+    nav a {
+        display: inline-block;
+        margin: 6px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌿 EXPLORE KARNATAKA</h1>
+    <p>Discover the beauty of Karnataka</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#destinations">Destinations</a>
+    <a href="#tools">Travel Tools</a>
+</nav>
+
+<section class="hero" id="home">
+    <h2>Explore The Beauty of Karnataka</h2>
+    <p>Discover nature, history, culture and adventure.</p>
+</section>
+
+<section class="controls" id="destinations">
+    <h2>Explore Tourist Destinations</h2>
+
+    <input type="text" id="search"
+    placeholder="Search places..."
+    oninput="displayPlaces()">
+
+    <select id="category" onchange="displayPlaces()">
+        <option value="All">All Categories</option>
+        <option value="Nature">Nature</option>
+        <option value="Historical">Historical</option>
+        <option value="Waterfalls">Waterfalls</option>
+        <option value="Hill Station">Hill Station</option>
+    </select>
+
+    <select id="district" onchange="displayPlaces()">
+        <option value="All">All Districts</option>
+        <option value="Mysuru">Mysuru</option>
+        <option value="Vijayanagara">Vijayanagara</option>
+        <option value="Kodagu">Kodagu</option>
+        <option value="Uttara Kannada">Uttara Kannada</option>
+        <option value="Shivamogga">Shivamogga</option>
+        <option value="Chikkamagaluru">Chikkamagaluru</option>
+    </select>
+
+    <button onclick="randomPlace()">🎲 Surprise Me!</button>
+</section>
+
+<div class="places" id="places"></div>
+
+<section class="tools" id="tools">
+    <h2>✈️ Travel Tools</h2>
+
+    <div>
+        <h3>❤️ Favourite Destinations</h3>
+        <button onclick="showFavourites()">View Favourites</button>
+        <button onclick="displayPlaces()">Show All Places</button>
+    </div>
+
+    <div>
+        <h3>💰 Travel Budget Calculator</h3>
+
+        <input type="number" id="days"
+        placeholder="Number of days">
+
+        <input type="number" id="cost"
+        placeholder="Daily budget (₹)">
+
+        <button onclick="calculateBudget()">Calculate</button>
+
+        <h3 id="result"></h3>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Explore Karnataka | Designed using HTML, CSS & JavaScript</p>
+    <p>Discover Karnataka, Discover Happiness 🌿</p>
+</footer>
+
+<script>
+
+const destinations = [
+{
+ name:"Mysore Palace",
+ district:"Mysuru",
+ category:"Historical",
+ image:"https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=600",
+ description:"A beautiful royal palace known for its architecture."
+},
+{
+ name:"Hampi",
+ district:"Vijayanagara",
+ category:"Historical",
+ image:"https://images.unsplash.com/photo-1606293926075-69a00dbfde81?w=600",
+ description:"Explore ancient temples and historical monuments."
+},
+{
+ name:"Coorg",
+ district:"Kodagu",
+ category:"Hill Station",
+ image:"https://images.unsplash.com/photo-1511497584788-876760111969?w=600",
+ description:"Enjoy coffee plantations and green landscapes."
+},
+{
+ name:"Jog Falls",
+ district:"Shivamogga",
+ category:"Waterfalls",
+ image:"https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=600",
+ description:"One of India's famous waterfalls."
+},
+{
+ name:"Gokarna",
+ district:"Uttara Kannada",
+ category:"Nature",
+ image:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600",
+ description:"Enjoy beautiful beaches and coastal views."
+},
+{
+ name:"Chikmagalur",
+ district:"Chikkamagaluru",
+ category:"Hill Station",
+ image:"https://images.unsplash.com/photo-1472396961693-142e6e269027?w=600",
+ description:"Experience beautiful hills and coffee estates."
+}
+];
+
+let favourites = [];
+
+function displayPlaces(data = destinations) {
+
+    const search = document.getElementById("search").value.toLowerCase();
+    const category = document.getElementById("category").value;
+    const district = document.getElementById("district").value;
+
+    const filtered = data.filter(place =>
+        place.name.toLowerCase().includes(search) &&
+        (category === "All" || place.category === category) &&
+        (district === "All" || place.district === district)
+    );
+
+    const container = document.getElementById("places");
+    container.innerHTML = "";
+
+    if(filtered.length === 0) {
+        container.innerHTML = "<h3>No destinations found!</h3>";
+        return;
+    }
+
+    filtered.forEach(place => {
+
+        const index = destinations.indexOf(place);
+
+        container.innerHTML += `
+        <div class="card">
+            <img src="${place.image}" alt="${place.name}">
+            <div class="card-content">
+                <h3>${place.name}</h3>
+                <p>📍 ${place.district}</p>
+                <p>Category: ${place.category}</p>
+                <p>${place.description}</p>
+                <button onclick="addFavourite(${index})">
+                    ❤️ Favourite
+                </button>
+            </div>
+        </div>
+        `;
+    });
+}
+
+function addFavourite(index) {
+
+    const place = destinations[index];
+
+    if(!favourites.includes(place)) {
+        favourites.push(place);
+        alert(place.name + " added to favourites!");
+    } else {
+        alert("Already in favourites!");
+    }
+}
+
+function showFavourites() {
+    displayPlaces(favourites);
+}
+
+function randomPlace() {
+
+    const place = destinations[
+        Math.floor(Math.random() * destinations.length)
+    ];
+
+    alert("Your next destination is: " + place.name);
+}
+
+function calculateBudget() {
+
+    const days = Number(document.getElementById("days").value);
+    const cost = Number(document.getElementById("cost").value);
+
+    if(days <= 0 || cost <= 0 ||
+       !Number.isFinite(days) || !Number.isFinite(cost)) {
+        alert("Please enter valid days and budget!");
+        return;
+    }
+
+    const total = days * cost;
+
+    document.getElementById("result").innerHTML =
+        "Estimated Travel Budget: ₹" + total.toLocaleString("en-IN");
+}
+
+displayPlaces();
+
+</script>
+
+</body>
+</html>
